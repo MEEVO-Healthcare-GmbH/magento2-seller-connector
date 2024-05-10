@@ -83,9 +83,9 @@
                     <source_model>MiraklSeller\Core\Model\Config\Source\Attribute\Dropdown</source_model>
                 </field>
             </group>
-            <group id="prices" translate="label" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+            <group id="prices" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label><![CDATA[Prices & Quantities]]></label>
-                <field id="enable_promotion_catalog_price_rule" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="enable_promotion_catalog_price_rule" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Promotion Catalog Price Rules</label>
                     <comment><![CDATA[If enabled, exported discount price will be filled with the best price between applicable Magento promotion catalog price rules and Magento special price. If a promotion price is applied, no discount periods are exported. If disabled, only Magento applicable special prices are used.]]></comment>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -94,6 +94,12 @@
                     <label>Customer Group</label>
                     <comment><![CDATA[Select the customer group to use for price and quantity export.]]></comment>
                     <source_model>MiraklSeller\Core\Model\Config\Source\Customer\DropdownCustomerGroup</source_model>
+                </field>
+                <field id="default_product_qty_export" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Export all products with fixed quantity</label>
+                    <comment><![CDATA[When set to empty or 0 the product quantity will be used.]]></comment>
+                    <frontend_type>text</frontend_type>
+                    <validate>validate-number</validate>
                 </field>
             </group>
         </section>

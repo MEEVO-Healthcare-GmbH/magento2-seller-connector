@@ -12,6 +12,7 @@ class Config extends ConfigApi
     const XML_PATH_ATTRIBUTES_CHUNK_SIZE                        = 'mirakl_seller_core/listing/attributes_chunk_size';
     const XML_PATH_DISCOUNT_ENABLE_PROMOTION_CATALOG_PRICE_RULE = 'mirakl_seller_core/prices/enable_promotion_catalog_price_rule';
     const XML_PATH_DISCOUNT_CUSTOMER_GROUP                      = 'mirakl_seller_core/prices/customer_group';
+    const XML_PATH_FIXED_PRODUCT_QTY_EXPORT                     = 'mirakl_seller_core/prices/default_product_qty_export';
 
     /**
      * Technical setting.
@@ -124,5 +125,15 @@ class Config extends ConfigApi
     public function getCustomerGroup()
     {
         return (int) $this->getValue(self::XML_PATH_DISCOUNT_CUSTOMER_GROUP);
+    }
+
+    /**
+     * Get the fixed quantity to use for qty export
+     *
+     * @return  int
+     */
+    public function getFixedQuantity()
+    {
+        return (int) $this->getValue(self::XML_PATH_FIXED_PRODUCT_QTY_EXPORT);
     }
 }

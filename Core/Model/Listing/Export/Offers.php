@@ -3,6 +3,7 @@ namespace MiraklSeller\Core\Model\Listing\Export;
 
 use Magento\Catalog\Model\ResourceModel\Eav\AttributeFactory;
 use Magento\Framework\ObjectManagerInterface;
+use MiraklSeller\Core\Helper\Config as ConfigHelper;
 use MiraklSeller\Core\Helper\Config;
 use MiraklSeller\Core\Helper\Listing\Product as ProductHelper;
 use MiraklSeller\Core\Model\Listing;
@@ -21,6 +22,11 @@ class Offers extends AbstractExport
      * @var Config
      */
     protected $config;
+
+    /**
+     * @var ConfigHelper
+     */
+    protected $configHelper;
 
     /**
      * @var ProductHelper
@@ -65,6 +71,7 @@ class Offers extends AbstractExport
     /**
      * @param   Config                      $config
      * @param   ProductHelper               $productHelper
+     * @param   ConfigHelper                $configHelper
      * @param   OfferFormatter              $offerFormatter
      * @param   AdditionalFieldFormatter    $additionalFieldFormatter
      * @param   AttributeFactory            $attributeFactory
@@ -79,6 +86,7 @@ class Offers extends AbstractExport
         AdditionalFieldFormatter $additionalFieldFormatter,
         AttributeFactory $attributeFactory,
         OfferFactory $offerFactory,
+        ConfigHelper $configHelper,
         ProductCollectionFactory $productCollectionFactory,
         ObjectManagerInterface $objectManager
     ) {
@@ -90,6 +98,7 @@ class Offers extends AbstractExport
         $this->offerFactory             = $offerFactory;
         $this->productCollectionFactory = $productCollectionFactory;
         $this->objectManager            = $objectManager;
+        $this->configHelper             = $configHelper;
         $this->isMsiEnabled             = $objectManager->get(\MiraklSeller\Core\Helper\Data::class)->isMsiEnabled();
     }
 
@@ -284,8 +293,10 @@ class Offers extends AbstractExport
      */
     public function overrideQty(array $product, $stockId)
     {
-        // 10.05.24 - meevo: As a workaround we always send 999 as qty
-        return self::NO_MANAGE_STOCK_QTY;
+        // 10.05.24 - Added possibility to set fixed quantity in settings
+        if ($this->configHelper->getFixedQuantity() >= 1) {
+            return $this->configHelper->getFixedQuantity();
+        }
 
         if (!$product['use_config_manage_stock'] && !$product['manage_stock']) {
             return self::NO_MANAGE_STOCK_QTY;
