@@ -284,6 +284,9 @@ class Offers extends AbstractExport
      */
     public function overrideQty(array $product, $stockId)
     {
+        // 10.05.24 - meevo: As a workaround we always send 999 as qty
+        return self::NO_MANAGE_STOCK_QTY;
+
         if (!$product['use_config_manage_stock'] && !$product['manage_stock']) {
             return self::NO_MANAGE_STOCK_QTY;
         }
